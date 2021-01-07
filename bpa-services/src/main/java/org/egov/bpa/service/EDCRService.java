@@ -102,7 +102,7 @@ public class EDCRService {
 		TypeRef<List<Double>> typeRef = new TypeRef<List<Double>>(){};
 		Map<String, String> additionalDetails = bpa.getAdditionalDetails() != null ? (Map)bpa.getAdditionalDetails()
 				: new HashMap<String, String>();
-		LinkedList<String> serviceType = context.read("edcrDetail.*.planDetail.planInformation.serviceType");
+		LinkedList<String> serviceType = context.read("edcrDetail.*.applicationSubType");
 		if(serviceType == null || serviceType.size() == 0){
 			serviceType.add("NEW_CONSTRUCTION");
 		}
@@ -123,7 +123,18 @@ public class EDCRService {
 		if (CollectionUtils.isEmpty(edcrStatus) || !edcrStatus.get(0).equalsIgnoreCase("Accepted")) {
 			throw new CustomException(BPAErrorConstants.INVALID_EDCR_NUMBER, "The EDCR Number is not Accepted " + edcrNo);
 		}
-		this.validateOCEdcr(OccupancyTypes, plotAreas, buildingHeights, applicationType, masterData, riskType);
+		List<String> dcrRiskType = context.read("edcrDetail.*.planDetail.planInformation.riskType");
+		
+		String expectedRiskType = BPAConstants.OTHER_RISKTYPE;
+		if (dcrRiskType!=null && dcrRiskType.get(0).equalsIgnoreCase("LOW")) {
+			expectedRiskType = BPAConstants.LOW_RISKTYPE;
+		}
+		
+//		LinkedList<String> nocsType = context.read("edcrDetail.*.planDetail.planInformation.requiredNOCs");
+//		if(nocsType!=null && nocsType.size()>0)
+//			additionalDetails.put(BPAConstants.REQUIRED_NOCS, nocsType.toString());
+		
+		//this.validateOCEdcr(OccupancyTypes, plotAreas, buildingHeights, applicationType, masterData, riskType, expectedRiskType);
 		
 		return additionalDetails;
 	}
@@ -138,7 +149,7 @@ public class EDCRService {
 	 * @param riskType
 	 */
 	private void validateOCEdcr(List<String> OccupancyTypes, List<Double> plotAreas,List<Double> buildingHeights, 
-			LinkedList<String> applicationType,Map<String, List<String>> masterData, String riskType) {
+			LinkedList<String> applicationType,Map<String, List<String>> masterData, String riskType, String expectedRiskType) {
 		if (!CollectionUtils.isEmpty(OccupancyTypes) && !CollectionUtils.isEmpty(plotAreas)
 				&& !CollectionUtils.isEmpty(buildingHeights) && !applicationType.get(0).equalsIgnoreCase(BPAConstants.BUILDING_PLAN_OC)) {
 			Double buildingHeight = Collections.max(buildingHeights);
@@ -146,7 +157,7 @@ public class EDCRService {
 															// OccupancyType
 															// would be same in
 															// the list
-			Double plotArea = plotAreas.get(0);
+			/*Double plotArea = plotAreas.get(0);
 			List jsonOutput = JsonPath.read(masterData, BPAConstants.RISKTYPE_COMPUTATION);
 			String filterExp = "$.[?((@.fromPlotArea < " + plotArea + " && @.toPlotArea >= " + plotArea
 					+ ") || ( @.fromBuildingHeight < " + buildingHeight + "  &&  @.toBuildingHeight >= "
@@ -154,8 +165,9 @@ public class EDCRService {
 
 			List<String> riskTypes = JsonPath.read(jsonOutput, filterExp);
 
-			if (!CollectionUtils.isEmpty(riskTypes) && OccupancyType.equals(BPAConstants.RESIDENTIAL_OCCUPANCY)) {
-				String expectedRiskType  = riskTypes.get(0);
+			if (!CollectionUtils.isEmpty(riskTypes) && OccupancyType.equals(BPAConstants.RESIDENTIAL_OCCUPANCY)) {*/
+			if (OccupancyType.equals(BPAConstants.RESIDENTIAL_OCCUPANCY)) {			
+				//String expectedRiskType  = riskTypes.get(0);
 
 				if (expectedRiskType == null || !expectedRiskType.equals(riskType)) {
 					throw new CustomException(BPAErrorConstants.INVALID_RISK_TYPE, "The Risk Type is not valid " + riskType);

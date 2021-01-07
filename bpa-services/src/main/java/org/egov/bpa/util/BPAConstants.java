@@ -332,6 +332,8 @@ public class BPAConstants {
 	public static final String ACTION_SENDBACKTOCITIZEN = "SEND_BACK_TO_CITIZEN";
 
 	public static final String HIGH_RISKTYPE = "HIGH";
+	
+	public static final String OTHER_RISKTYPE = "OTHER";
 
 	public static final String BUILDING_PLAN = "BUILDING_PLAN_SCRUTINY";
 	
@@ -344,6 +346,10 @@ public class BPAConstants {
 	public static final String OC_KHATHANO = "$.edcrDetail[0].planDetail.planInformation.khataNo";
 
 	public static final String OC_PLOTNO = "$.edcrDetail[0].planDetail.planInformation.plotNo";
+	
+	public static final String BUILDING_PLAN_PC = "BUILDING_PC_PLAN_SCRUTINY";
+
+	public static final String BPA_PC_MODULE_CODE = "BPA_PC";
 	
 	public static final String SERVICETYPE = "serviceType";
 	
@@ -358,4 +364,6 @@ public class BPAConstants {
 	public static final String NOC_APPLICATIONTYPE = "NEW";
 
 	public static final String NOC_SOURCE = "BPA";
+	
+//	public static final String REQUIRED_NOCS="requiredNOCs";
 }

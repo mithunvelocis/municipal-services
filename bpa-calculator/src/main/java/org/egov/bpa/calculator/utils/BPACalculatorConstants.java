@@ -21,6 +21,8 @@ public class BPACalculatorConstants {
 	public static final String MDMS_BPA_PATH = "$.MdmsRes.BPA";
 
 	public static final String MDMS_BPA = "BPA";
+	
+	public static final String MDMS_BPA_LOW = "BPA_LOW";
 
 	public static final String MDMS_CALCULATIONTYPE_FINANCIALYEAR = "financialYear";
 
@@ -216,6 +218,7 @@ public class BPACalculatorConstants {
 	public static final String F_VI = "F-VI";// Veterinary Institute
 	public static final String F_MC = "F-MC";// Medical College
 	public static final String F_RTC = "F-RTC";// Research and Training Center
+		
 	public static final String G_A = "G-A";// Airport
 	public static final String G_AS = "G-AS";// Auto Stand
 	public static final String G_MS = "G-MS";// Metro Station
@@ -228,6 +231,7 @@ public class BPACalculatorConstants {
 	public static final String G_PP = "G-PP";// Public Parking
 	public static final String G_TP = "G-TP";// Toll Plaza
 	public static final String G_TT = "G-TT";// Truck Terminal
+	
 	public static final String H_AF = "H-AF";// Agriculture Farm
 	public static final String H_AG = "H-AG";// Agro Godown
 	public static final String H_ARF = "H-ARF";// Agro-Research Farm
@@ -241,12 +245,14 @@ public class BPACalculatorConstants {
 	public static final String OCCUPANCY_TYPE_PATH = "edcrDetail.*.planDetail.virtualBuilding.mostRestrictiveFarHelper.type.code";
 	public static final String SUB_OCCUPANCY_TYPE_PATH = "edcrDetail.*.planDetail.virtualBuilding.mostRestrictiveFarHelper.subtype.code";
 	public static final String PLOT_AREA_PATH = "edcrDetail.*.planDetail.plot.area";
-	public static final String BUILTUP_AREA_PATH = "edcrDetail.*.planDetail.virtualBuilding.totalBuitUpArea";
-	public static final String EWS_AREA_PATH = "edcrDetail.*.planDetail.totalEWSArea";
-	public static final String SHELTER_FEE_PATH = "edcrDetail.*.planDetail.planInformation.isShelterFeeRequired";
+	public static final String TOTAL_FLOOR_AREA_PATH = "edcrDetail.*.planDetail.virtualBuilding.totalFloorArea";
+	public static final String EWS_AREA_PATH = "edcrDetail.*.planDetail.totalEWSFeeEffectiveArea";
+	public static final String SHELTER_FEE_PATH = "edcrDetail.*.planDetail.planInformation.shelterFeeRequired";
 	public static final String BENCHMARK_VALUE_PATH = "edcrDetail.*.planDetail.planInformation.benchmarkValuePerAcre";
 	public static final String BASE_FAR_PATH = "edcrDetail.*.planDetail.farDetails.baseFar";
-	public static final String PERMISSIBLE_FAR_PATH = "edcrDetail.*.planDetail.farDetails.permissableFar";
+	public static final String PROVIDED_FAR_PATH = "edcrDetail.*.planDetail.farDetails.providedFar";
+	public static final String DWELLING_UNITS_PATH = "edcrDetail.*.planDetail.planInformation.totalNoOfDwellingUnits";
+	public static final String SECURITY_DEPOSIT_PATH = "edcrDetail.*.planDetail.planInformation.isSecurityDepositRequired";
 	public static final String APPLICATION_TYPE = "APPLICATION_TYPE";
 	public static final String SERVICE_TYPE = "SERVICE_TYPE";
 	public static final String RISK_TYPE = "RISK_TYPE";
@@ -254,15 +260,17 @@ public class BPACalculatorConstants {
 	public static final String OCCUPANCY_TYPE = "OCCUPANCY_TYPE";
 	public static final String SUB_OCCUPANCY_TYPE = "SUB_OCCUPANCY_TYPE";
 	public static final String PLOT_AREA = "PLOT_AREA";
-	public static final String BUILTUP_AREA = "BUILTUP_AREA";
+	public static final String TOTAL_FLOOR_AREA = "TOTAL_FLOOR_AREA";
 	public static final String EWS_AREA = "EWS_AREA";
 	public static final String SHELTER_FEE = "SHELTER_FEE";
 	public static final String BMV_ACRE = "BMV_ACRE";
 	public static final String BASE_FAR = "BASE_FAR";
-	public static final String PERMISSIBLE_FAR = "PERMISSIBLE_FAR";
+	public static final String PROVIDED_FAR = "PROVIDED_FAR";
 	public static final String BUILDING_PLAN_SCRUTINY = "BUILDING_PLAN_SCRUTINY";
 	public static final String NEW_CONSTRUCTION = "NEW_CONSTRUCTION";
-	public static final String DWELLING_UNITS_PATH = "edcrDetail.*.planDetail.planInformation.totalNoOfDwellingUnits";
 	public static final String TOTAL_NO_OF_DWELLING_UNITS = "TOTAL_NO_OF_DWELLING_UNITS";
+	public static final String AREA_TYPE = "AREA_TYPE";
+	public static final String AREA_TYPE_PLOT = "PLOT";
+	public static final String SECURITY_DEPOSIT = "SECURITY_DEPOSIT";
 
 }
