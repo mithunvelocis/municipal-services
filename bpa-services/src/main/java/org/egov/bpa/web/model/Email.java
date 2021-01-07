@@ -1,17 +1,32 @@
 package org.egov.bpa.web.model;
 
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
+@Setter
 @Getter
-@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Builder
 public class Email {
-    private String toAddress;
-    private String subject;
-    private String body;
-    private boolean html;
+
+	private Set<String> emailTo;
+	private String subject;
+	private String body;
+
+	@JsonProperty("isHTML")
+	private boolean isHTML;
+	
+	
+	
+
 }

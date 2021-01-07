@@ -137,6 +137,15 @@ public class BPAConfiguration {
 	@Value("${notification.sms.enabled}")
 	private Boolean isSMSEnabled;
 
+	@Value("${notification.email.enabled}")
+	private Boolean isEmailNotificationEnabled;
+	
+	@Value("${kafka.topics.notification.email}")
+	private String emailNotifTopic;
+	
+	@Value("${notification.email.subject}")
+	private String emailSubject;
+	
 	// Localization
 	@Value("${egov.localization.host}")
 	private String localizationHost;

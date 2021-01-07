@@ -2,6 +2,7 @@ package org.egov.bpa.service.notification;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.egov.bpa.util.NotificationUtil;
 import org.egov.bpa.web.model.BPA;
 import org.egov.bpa.web.model.BPARequest;
 import org.egov.bpa.web.model.BPASearchCriteria;
+import org.egov.bpa.web.model.EmailRequest;
 import org.egov.bpa.web.model.EventRequest;
 import org.egov.bpa.web.model.SMSRequest;
 import org.egov.common.contract.request.RequestInfo;
@@ -104,6 +106,7 @@ public class PaymentNotificationService {
 						mobileNumberToOwner.put(owner.getMobileNumber(), owner.getName());
 				});
 				List<SMSRequest> smsList = new ArrayList<>();
+				List<EmailRequest> emailnewRequests = new LinkedList<>();
 				List<Map> users = new ArrayList<Map>();
 				users.add(mobileNumberToOwner);
 				smsList.addAll(util.createSMSRequest(message, mobileNumberToOwner));
@@ -117,6 +120,28 @@ public class PaymentNotificationService {
 							util.sendEventNotification(eventRequest);
 					}
 				}
+				/*
+				 * if (null != config.getIsEmailNotificationEnabled()) { if
+				 * (config.getIsEmailNotificationEnabled()) { Map<String, String> emailToOwner =
+				 * new HashMap<>(); BPARequest bpaRequest =
+				 * BPARequest.builder().requestInfo(requestInfo).BPA(bpa).build(); String
+				 * emailmessage =
+				 * "<html><body><b>Dear <1></b>,<br/><br/> The payment for you application with the application no as: "
+				 * + bpa.getApplicationNo() +
+				 * " is done Successfully. Waiting for Docverification.<br/><br/><br/><b>Regards,<br/>Building Plan Approval Dept.</b></body></html>"
+				 * ; bpa.getLandInfo().getOwners().forEach(owner -> { if (owner.getEmailId() !=
+				 * null) emailToOwner.put(owner.getEmailId(), owner.getName()); }); String
+				 * customisedSubject=config.getEmailSubject()+bpaRequest.getBPA().
+				 * getApplicationNo();
+				 * emailnewRequests.addAll(util.createNewEmailRequest(bpaRequest,emailmessage,
+				 * emailToOwner,customisedSubject));
+				 * 
+				 * if (!CollectionUtils.isEmpty(emailnewRequests))
+				 * util.sendNewEmail(emailnewRequests, config.getIsEmailNotificationEnabled());
+				 * 
+				 * 
+				 * } }
+				 */
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

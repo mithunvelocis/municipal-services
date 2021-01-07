@@ -21,6 +21,7 @@ import org.egov.bpa.web.model.ActionItem;
 import org.egov.bpa.web.model.BPA;
 import org.egov.bpa.web.model.BPARequest;
 import org.egov.bpa.web.model.BPASearchCriteria;
+import org.egov.bpa.web.model.EmailRequest;
 import org.egov.bpa.web.model.Event;
 import org.egov.bpa.web.model.EventRequest;
 import org.egov.bpa.web.model.Recepient;
@@ -73,12 +74,18 @@ public class BPANotificationService {
 	 */
 	public void process(BPARequest bpaRequest) {
 		List<SMSRequest> smsRequests = new LinkedList<>();
+		
+		List<EmailRequest> emailnewRequests = new LinkedList<>();
 		if (null != config.getIsSMSEnabled()) {
-			if (config.getIsSMSEnabled()) {
-				enrichSMSRequest(bpaRequest, smsRequests);
-				if (!CollectionUtils.isEmpty(smsRequests))
-					util.sendSMS(smsRequests, config.getIsSMSEnabled());
-			}
+			/*
+			 * if (config.getIsSMSEnabled()) {
+			 * 
+			 * enrichSMSRequest(bpaRequest, smsRequests); if
+			 * (!CollectionUtils.isEmpty(smsRequests)) util.sendSMS(smsRequests,
+			 * config.getIsSMSEnabled());
+			 * 
+			 * }
+			 */
 		}
 		if (null != config.getIsUserEventsNotificationEnabled()) {
 			if (config.getIsUserEventsNotificationEnabled()) {
@@ -87,6 +94,17 @@ public class BPANotificationService {
 					util.sendEventNotification(eventRequest);
 			}
 		}
+	 
+		if (null != config.getIsEmailNotificationEnabled()) {
+			if (config.getIsEmailNotificationEnabled()) {
+				
+        	enrichNewEmailRequest(bpaRequest,emailnewRequests);
+        	if (!CollectionUtils.isEmpty(emailnewRequests))
+				util.sendNewEmail(emailnewRequests, config.getIsEmailNotificationEnabled());
+        	log.info(" Sending mail : "+ emailnewRequests);
+      
+			}
+        }
 	}
 
 	/**
@@ -207,7 +225,27 @@ public class BPANotificationService {
 		Map<String, String> mobileNumberToOwner = getUserList(bpaRequest);
 		smsRequests.addAll(util.createSMSRequest(message, mobileNumberToOwner));
 	}
-
+	
+	/**
+	 * Enriches the emailRequest with the customized messages
+	 * 
+	 * @param request
+	 *            The bpaRequest from kafka topic
+	 * @param smsRequests
+	 *            List of emailRequests
+	 */
+	 public void enrichNewEmailRequest(BPARequest bpaRequest,List<EmailRequest> emailRequests) {
+		 	
+			
+		 	String subject = config.getEmailSubject();
+		 	String tenantId = bpaRequest.getBPA().getTenantId();
+		 	String localizationMessages = util.getLocalizationMessages(tenantId, bpaRequest.getRequestInfo());
+			String message = util.getCustomizeEmaildMsg(bpaRequest.getRequestInfo(), bpaRequest.getBPA(), localizationMessages);
+			Map<String, String> emailToOwner = getUserEmailList(bpaRequest);
+			String customisedSubject=subject+bpaRequest.getBPA().getApplicationNo();
+			emailRequests.addAll(util.createNewEmailRequest(bpaRequest,message, emailToOwner,customisedSubject));
+		 }
+	 
 	/**
 	 * To get the Users to whom we need to send the sms notifications or event
 	 * notifications.
@@ -253,5 +291,23 @@ public class BPANotificationService {
 			
 		}
 		return mobileNumberToOwner;
+	}
+	
+	private Map<String, String> getUserEmailList(BPARequest bpaRequest) {
+		Map<String, String> emailToOwner = new HashMap<>();
+		
+		if (!(bpaRequest.getBPA().getWorkflow().getAction().equals(config.getActionsendtocitizen())
+				&& bpaRequest.getBPA().getStatus().equals("INITIATED"))
+				&& !(bpaRequest.getBPA().getWorkflow().getAction().equals(config.getActionapprove())
+						&& bpaRequest.getBPA().getStatus().equals("INPROGRESS"))) {
+			
+			bpaRequest.getBPA().getLandInfo().getOwners().forEach(owner -> {
+					if (owner.getEmailId() != null) {
+						emailToOwner.put(owner.getEmailId(), owner.getName());
+					}
+			});
+			
+		}
+		return emailToOwner;
 	}
 }
