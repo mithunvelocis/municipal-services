@@ -122,7 +122,7 @@ public class NotificationUtil {
 					+ bpa.getStatus()+"_EMAIL";
 
 			messageTemplate = getMessageTemplate(messageCode, localizationMessage);
-			System.out.println("localizationMessage::: "+localizationMessage);
+			//System.out.println("localizationMessages::: "+localizationMessage);
 			if (!StringUtils.isEmpty(messageTemplate)) {
 				message = getInitiatedMsg(bpa, messageTemplate, serviceType);
 
