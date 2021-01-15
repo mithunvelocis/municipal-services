@@ -77,15 +77,15 @@ public class BPANotificationService {
 		
 		List<EmailRequest> emailnewRequests = new LinkedList<>();
 		if (null != config.getIsSMSEnabled()) {
-			/*
-			 * if (config.getIsSMSEnabled()) {
-			 * 
-			 * enrichSMSRequest(bpaRequest, smsRequests); if
-			 * (!CollectionUtils.isEmpty(smsRequests)) util.sendSMS(smsRequests,
-			 * config.getIsSMSEnabled());
-			 * 
-			 * }
-			 */
+			
+			  if (config.getIsSMSEnabled()) {
+			  
+			  enrichSMSRequest(bpaRequest, smsRequests); if
+			  (!CollectionUtils.isEmpty(smsRequests)) util.sendSMS(smsRequests,
+			  config.getIsSMSEnabled());
+			  
+			  }
+			 
 		}
 		if (null != config.getIsUserEventsNotificationEnabled()) {
 			if (config.getIsUserEventsNotificationEnabled()) {

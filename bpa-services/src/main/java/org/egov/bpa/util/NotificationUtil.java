@@ -103,13 +103,14 @@ public class NotificationUtil {
 	@SuppressWarnings("unchecked")
 	public String getCustomizeEmaildMsg(RequestInfo requestInfo, BPA bpa, String localizationMessage) {
 		String message = null, messageTemplate;
-		//Map<String, String> edcrResponse = edcrService.getEDCRDetails(requestInfo, bpa);
+		Map<String, String> edcrResponse = edcrService.getEDCRDetails(requestInfo, bpa);
 
-		//String applicationType = edcrResponse.get(BPAConstants.APPLICATIONTYPE);
-		//String serviceType = edcrResponse.get(BPAConstants.SERVICETYPE);
-		String applicationType = "BUILDING_PLAN_SCRUTINY";
-	    String serviceType ="NEW_CONSTRUCTION";
-		bpa.setStatus("INITIATED");
+		String applicationType = edcrResponse.get(BPAConstants.APPLICATIONTYPE);
+		String serviceType = edcrResponse.get(BPAConstants.SERVICETYPE);
+		//String applicationType = "BUILDING_PLAN_SCRUTINY";
+	    // String serviceType ="NEW_CONSTRUCTION";
+		//bpa.setStatus("INITIATED");
+		
 		  if
 		  (bpa.getStatus().toString().toUpperCase().equals(BPAConstants.STATUS_REJECTED
 		  )) { messageTemplate = getMessageTemplate(applicationType + "_" +
@@ -327,14 +328,9 @@ public class NotificationUtil {
 		Set<String> strings = new LinkedHashSet<>();
 		for (Map.Entry<String, String> entryset : emailToOwner.entrySet()) {
 			 String customizedMsg = message.replace("<1>", entryset.getValue());
-			//String customizedMsg = "Test";
+			
 			 strings.add(entryset.getKey());
-			//emailRequest.add(EmailRequest.builder().email(entryset.getKey()).subject(subject).body(customizedMsg)
-				//	.isHTML(true).build());
-				/*
-				 * EmailNew.builder().emailTo(entryset.getKey()).subject(subject).body(
-				 * customizedMsg) .isHTML(true).build()
-				 */
+			
 			 emailRequest.add(new EmailRequest(bpa.getRequestInfo(),new Email(strings,subject,customizedMsg,true)));
 		}
 
