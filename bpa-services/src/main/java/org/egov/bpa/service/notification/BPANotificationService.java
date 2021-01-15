@@ -101,7 +101,7 @@ public class BPANotificationService {
         	enrichNewEmailRequest(bpaRequest,emailnewRequests);
         	if (!CollectionUtils.isEmpty(emailnewRequests))
 				util.sendNewEmail(emailnewRequests, config.getIsEmailNotificationEnabled());
-        	log.info(" Sending mail : "+ emailnewRequests);
+        	log.info(" Sending email : "+ emailnewRequests);
       
 			}
         }
