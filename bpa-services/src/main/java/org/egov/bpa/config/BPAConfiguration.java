@@ -140,6 +140,7 @@ public class BPAConfiguration {
 	@Value("${notification.email.enabled}")
 	private Boolean isEmailNotificationEnabled;
 	
+	// Email
 	@Value("${kafka.topics.notification.email}")
 	private String emailNotifTopic;
 	
